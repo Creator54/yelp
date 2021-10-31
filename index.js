@@ -24,10 +24,22 @@ app.get('/',(req,res)=>{
     res.render('home');
 })
 
+const varifypassword = (req,res,next) =>{
+    const { password } = req.query;
+    if (password === 'pass') {
+        next();
+    }
+    res.send("YOU NEED A PASSWORD!")
+}
+
 app.get('/makecampgrounds', async (req,res)=>{
     const newcampground = new campground({tittle : 'FirstCampground',description:'This is the First One.'});
     await newcampground.save();
     res.send(newcampground);
+})
+
+app.get('/secret',varifypassword,(req,res)=>{
+    res.send("You Have been Pranked , Smile at the Camera.")
 })
 
 app.get('/campgrounds',async(req,res)=>{
