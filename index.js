@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+const { campgroundSchema } = require('./schemas');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser : true,
@@ -40,15 +41,6 @@ const varifypassword = (req,res,next) =>{
 }
 
 const validateCampground = (req,res,next) =>{
-    const campgroundSchema = Joi.object({
-        campground : Joi.object({
-            tittle : Joi.string().required(),
-            price : Joi.number().required().min(0),
-            image : Joi.string().required(),
-            location: Joi.string().required(),
-            description : Joi.string().required()
-        }).required()
-    })
     const { error } = campgroundSchema.validate(req.body);
     // console.log(error);
     if(error){
@@ -57,7 +49,6 @@ const validateCampground = (req,res,next) =>{
     }else{
         next();
     }
-    
 }
 
 app.get('/makecampgrounds', catchAsync(async (req,res)=>{
