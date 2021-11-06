@@ -16,8 +16,8 @@
             <form action="/campgrounds/<%=camp._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]"
-                        value="<%=camp.title %>" required>
+                    <input class="form-control" type="text" id="title" name="campground[tittle]"
+                        value="<%=camp.tittle %>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
@@ -34,7 +34,7 @@
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">$</span>
                         <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                            aria-describedby="price-label" name="campground[price]" value="<%=camp.price %>" re>
+                            aria-describedby="price-label" name="campground[price]" value="<%= camp.price %>" >
                     </div>
                 </div>
     
