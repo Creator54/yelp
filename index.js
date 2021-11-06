@@ -1,6 +1,7 @@
 const express =  require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const Joi = require('joi');
 const campground = require('./models/campgrounds');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
@@ -59,8 +60,22 @@ app.get('/campgrounds/new',(req,res)=>{
 
 app.post('/campgrounds', catchAsync(async(req,res,next)=>{  // Basic Custom erroe
         // console.log(req.body.campground);
-        if(!req.body.campground) throw new ExpressError('Invalid Campground',404); // throw to CatchAsync 
-
+        // if(!req.body.campground) throw new ExpressError('Invalid Campground',404); // throw to CatchAsync 
+        const campgroundSchema = Joi.object({
+            campground : Joi.object({
+                tittle : Joi.string().required(),
+                price : Joi.number().required().min(0),
+                image : Joi.string().required(),
+                location: Joi.string().required(),
+                description : Joi.string().required()
+            }).required()
+        })
+        const { error } = campgroundSchema.validate(req.body);
+        // console.log(error);
+        if(error){
+            const msg = error.details.map( el => el.message).join(',');
+            throw new ExpressError(msg,400);
+        }
         const camp = new campground(req.body.campground);
         await camp.save();
         res.redirect(`/campgrounds/${camp._id}`);
