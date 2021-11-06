@@ -54,10 +54,15 @@ app.get('/campgrounds/new',(req,res)=>{
     res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async(req,res)=>{
-   const camp = new campground(req.body.campground);
-   await camp.save();
-   res.redirect(`/campgrounds/${camp._id}`);
+app.post('/campgrounds', async(req,res,next)=>{  // Basic Custom Error Handler Added.
+    try{
+        const camp = new campground(req.body.campground);
+        await camp.save();
+        res.redirect(`/campgrounds/${camp._id}`);
+    } catch(e){
+        next(e);
+    }
+  
 })
 
 
@@ -85,6 +90,10 @@ app.delete('/campgrounds/:id', async(req,res)=>{
     res.redirect('/campgrounds');
 })
 
+//Basic custom Error Handler Added.
+app.use((err,req,res,next)=>{
+    res.send('Basic Error Handler Working');
+})
 
 app.listen(3000,()=>{
     console.log('App Started');
