@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const campground = require('./models/campgrounds');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utils/catchAsync');
+
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser : true,
     useUnifiedTopology:true
@@ -35,60 +37,56 @@ const varifypassword = (req,res,next) =>{
     res.send("YOU NEED A PASSWORD!")
 }
 
-app.get('/makecampgrounds', async (req,res)=>{
+app.get('/makecampgrounds', catchAsync(async (req,res)=>{
     const newcampground = new campground({tittle : 'FirstCampground',description:'This is the First One.'});
     await newcampground.save();
     res.send(newcampground);
-})
+}))
 
 app.get('/secret',varifypassword,(req,res)=>{
     res.send("You Have been Pranked , Smile at the Camera.")
 })
 
-app.get('/campgrounds',async(req,res)=>{
+app.get('/campgrounds',catchAsync(async(req,res)=>{
     const campgrounds = await campground.find({});
     res.render('campgrounds/index',{ campgrounds })
-})
+}))
 
 app.get('/campgrounds/new',(req,res)=>{
     res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async(req,res,next)=>{  // Basic Custom Error Handler Added.
-    try{
+app.post('/campgrounds', catchAsync(async(req,res,next)=>{  // Basic Custom erroe
+        // console.log(req.body.campground);
         const camp = new campground(req.body.campground);
         await camp.save();
         res.redirect(`/campgrounds/${camp._id}`);
-    } catch(e){
-        next(e);
-    }
-  
-})
+}))
 
 
-app.get('/campgrounds/:id',async(req,res)=>{
+app.get('/campgrounds/:id', catchAsync(async(req,res)=>{
     const camp = await campground.findById(req.params.id);
     res.render('campgrounds/show',{camp});
-})
+}))
 
-app.get('/campgrounds/:id/edit',async (req,res)=>{
+app.get('/campgrounds/:id/edit', catchAsync(async (req,res)=>{
     const camp = await campground.findById(req.params.id);
     res.render('campgrounds/edit',{ camp });
-})
+}))
 
-app.put('/campgrounds/:id', async(req,res)=>{
+app.put('/campgrounds/:id', catchAsync(async(req,res)=>{
     const { id } = req.params;
     console.log(req.body.campground);
     const camp = await campground.findByIdAndUpdate(id , req.body.campground);
 //here ... just open the outer bracket and ramaining inside is take and updated in.
     res.redirect(`/campgrounds/${camp._id}`);
-})
+}))
 
-app.delete('/campgrounds/:id', async(req,res)=>{
+app.delete('/campgrounds/:id',  catchAsync(async(req,res)=>{
     const { id } = req.params;
     await campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
-})
+}))
 
 //Basic custom Error Handler Added.
 app.use((err,req,res,next)=>{
