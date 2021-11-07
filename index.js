@@ -7,7 +7,8 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { campgroundSchema } = require('./schemas');
+const { campgroundSchema , reviewSchema } = require('./schemas');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser : true,
@@ -43,6 +44,16 @@ const varifypassword = (req,res,next) =>{
 const validateCampground = (req,res,next) =>{
     const { error } = campgroundSchema.validate(req.body);
     // console.log(error);
+    if(error){
+        const msg = error.details.map( el => el.message).join(',');
+        throw new ExpressError(msg,400);
+    }else{
+        next();
+    }
+}
+
+const validateReview = (req,res,next)=>{
+    const {error} = reviewSchema.validate(req.body);
     if(error){
         const msg = error.details.map( el => el.message).join(',');
         throw new ExpressError(msg,400);
@@ -95,6 +106,15 @@ app.put('/campgrounds/:id', validateCampground, catchAsync(async(req,res)=>{
     // console.log(req.body.campground);
     const camp = await campground.findByIdAndUpdate(id , req.body.campground);
 //here ... just open the outer bracket and ramaining inside is take and updated in.
+    res.redirect(`/campgrounds/${camp._id}`);
+}))
+
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async(req,res)=>{
+    const camp = await campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    camp.reviews.push(review);
+    await review.save();
+    await camp.save();
     res.redirect(`/campgrounds/${camp._id}`);
 }))
 
