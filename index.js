@@ -124,6 +124,15 @@ app.delete('/campgrounds/:id',  catchAsync(async(req,res)=>{
     res.redirect('/campgrounds');
 }))
 
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }); // This is for pulling/deleting the review inside campground schema.
+    await Review.findByIdAndDelete(reviewId); // this is complete removal from reviews schema as one to many realtion is here and one campground has many reviews possible.
+    res.redirect(`/campgrounds/${id}`);
+}))
+
+
+
 app.all('*',(req,res,next)=>{
     next(new ExpressError('Page Not Found',404));
 })
