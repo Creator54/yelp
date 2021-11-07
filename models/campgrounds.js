@@ -16,5 +16,16 @@ const CampgroundsSchema = new Schema({
     ]
 });
 
+//this is added in case if entire campground get deleted the all reviews of the campground on review chema will also get deleed.
+CampgroundsSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) { //doc the document which get deleted
+        await Review.deleteMany({ // this will delete all reviews of given riview id.
+            _id: {
+                $in: doc.reviews
+            }
+        })
+    }
+})
+
  
 module.exports = mongoose.model('Campground',CampgroundsSchema);
