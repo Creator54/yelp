@@ -53,6 +53,7 @@ const validateCampground = (req,res,next) =>{
 }
 
 const validateReview = (req,res,next)=>{
+    console.log("I am in");
     const {error} = reviewSchema.validate(req.body);
     if(error){
         const msg = error.details.map( el => el.message).join(',');
@@ -109,7 +110,8 @@ app.put('/campgrounds/:id', validateCampground, catchAsync(async(req,res)=>{
     res.redirect(`/campgrounds/${camp._id}`);
 }))
 
-app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async(req,res)=>{
+app.post('/campgrounds/:id/reviews', validateReview , catchAsync(async(req,res)=>{
+    console.log("I am in");
     const camp = await campground.findById(req.params.id);
     const review = new Review(req.body.review);
     camp.reviews.push(review);

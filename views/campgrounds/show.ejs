@@ -14,7 +14,7 @@
                 <div class="card mb-3">
                     <img src="<%= camp.image%>" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title"><%= camp.title%></h5>
+                        <h5 class="card-title"><%= camp.tittle%></h5>
                         <p class="card-text"><%= camp.description%></p>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -31,19 +31,22 @@
                         2 days ago
                     </div>
                 </div>
-                <h2>Leave A Review</h2>
-                <form action="/campgrounds/<%= camp._id %>/reviews" method="post" class="mb-3 validated-form" novalidate > 
-                    <div class="mb-3">
-                        <label class="form-label" for="rating">Rating</label>
-                        <input class="form-range" type="range" min="1" max="5" id="rating" name="review[rating]" value="1">
+                <h2>Leave a Review</h2>
+                <form action="/campgrounds/<%=camp._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="rating">Rating</label>
+                    <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="body">Review</label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="body">Review</label>
-                        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
-                    </div>
-                    <div class="btn btn-success">Submit</div>
+                </div>
+                <button class="btn btn-success">Submit</button>
                 </form>
-            </div>
+                </div>
         </div>
     </div>
     
