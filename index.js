@@ -131,12 +131,9 @@ app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => 
     res.redirect(`/campgrounds/${id}`);
 }))
 
-
-
 app.all('*',(req,res,next)=>{
     next(new ExpressError('Page Not Found',404));
 })
-
 
 //Basic custom Error Handler Added.
 app.use((err,req,res,next)=>{
