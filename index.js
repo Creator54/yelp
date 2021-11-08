@@ -28,7 +28,7 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs',ejsMate);
-
+app.use(express.static(path.join(__dirname,'public')));
 app.use('/campgrounds',campgrounds);
 app.use('/campgrounds/:id/reviews',reviews)
 
@@ -44,32 +44,6 @@ const varifypassword = (req,res,next) =>{
     res.send("YOU NEED A PASSWORD!")
 }
 
-// const validateCampground = (req,res,next) =>{
-//     const { error } = campgroundSchema.validate(req.body);
-//     // console.log(error);
-//     if(error){
-//         const msg = error.details.map( el => el.message).join(',');
-//         throw new ExpressError(msg,400);
-//     }else{
-//         next();
-//     }
-// }
-
-// const validateReview = (req,res,next)=>{
-//     const {error} = reviewSchema.validate(req.body);
-//     if(error){
-//         const msg = error.details.map( el => el.message).join(',');
-//         throw new ExpressError(msg,400);
-//     }else{
-//         next();
-//     }
-// }
-
-// app.get('/makecampgrounds', catchAsync(async (req,res)=>{
-//     const newcampground = new campground({tittle : 'FirstCampground',description:'This is the First One.'});
-//     await newcampground.save();
-//     res.send(newcampground);
-// }))
 
 app.get('/secret',varifypassword,(req,res)=>{
     res.send("You Have been Pranked , Smile at the Camera.")
