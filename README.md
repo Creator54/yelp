@@ -13,6 +13,7 @@ Web Technologies & Dependencies Used:
 ->Express Routes
 ->Express Cookie Parser
 ->Express Joi
+->Express Session
 ->npm
 ->Ejs
 ->nodemon
