@@ -2,16 +2,19 @@
 
 A Project Website.
 Web Technologies & Dependencies Used:
--HTML
--CSS
+->HTML
+->CSS
 -JS
--BootStrap
--Node
--MongoDB
--Mongoose
--Express
--npm
--Ejs
--nodemon
--ejs-mate
--Method Override
+->BootStrap
+->NodeJS
+->MongoDB
+->Mongoose
+->Express
+->Express Routes
+->Express Cookie Parser
+->npm
+->Ejs
+->nodemon
+->ejs_mate
+->Method Override
+->Npm Flash
