@@ -38,7 +38,7 @@ router.post('/',validateCampground,catchAsync(async(req,res,next)=>{  // Basic C
 
 router.get('/:id', catchAsync(async(req,res)=>{
     const camp = await campground.findById(req.params.id).populate('reviews');
-    if(!cmap){
+    if(!camp){
         req.flash('error','Cannot Find That Campground');
         res.redirect('/campgrounds');
     }
