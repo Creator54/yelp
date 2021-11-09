@@ -50,6 +50,7 @@ router.put('/:id', validateCampground, catchAsync(async(req,res)=>{
     const { id } = req.params;
     // console.log(req.body.campground);
     const camp = await campground.findByIdAndUpdate(id , req.body.campground);
+    req.flash('success', 'Successfully Updated');
 //here ... just open the outer bracket and ramaining inside is take and updated in.
     res.redirect(`/campgrounds/${camp._id}`);
 }))
@@ -57,6 +58,7 @@ router.put('/:id', validateCampground, catchAsync(async(req,res)=>{
 router.delete('/:id',  catchAsync(async(req,res)=>{
     const { id } = req.params;
     await campground.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted campground!');
     res.redirect('/campgrounds');
 }))
 
