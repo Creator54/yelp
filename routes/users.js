@@ -32,6 +32,8 @@ router.post('/login', passport.authenticate('local',{failureFlash:true,failureRe
     res.redirect('/campgrounds'); // Demmo account {username : abc , password : password }
 })
 
+ a
+
 
 
 module.exports = router;
