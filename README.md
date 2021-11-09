@@ -21,3 +21,4 @@ Web Technologies & Dependencies Used:
 ->Method Override
 ->Connect-Flash
 ->BCRYPT
+->Passport Tool (For Authentication).
