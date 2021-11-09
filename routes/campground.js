@@ -38,11 +38,20 @@ router.post('/',validateCampground,catchAsync(async(req,res,next)=>{  // Basic C
 
 router.get('/:id', catchAsync(async(req,res)=>{
     const camp = await campground.findById(req.params.id).populate('reviews');
+    if(!cmap){
+        req.flash('error','Cannot Find That Campground');
+        res.redirect('/campgrounds');
+    }
     res.render('campgrounds/show',{camp});
+    
 }))
 
 router.get('/:id/edit', catchAsync(async (req,res)=>{
     const camp = await campground.findById(req.params.id);
+    if(!cmap){
+        req.flash('error','Cannot Find That Campground');
+        res.redirect('/campgrounds');
+    }
     res.render('campgrounds/edit',{ camp });
 }))
 
