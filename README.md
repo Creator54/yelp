@@ -4,7 +4,7 @@ A Project Website.
 Web Technologies & Dependencies Used:
 ->HTML
 ->CSS
--JS
+-JavaScript
 ->BootStrap
 ->NodeJS
 ->MongoDB
@@ -14,9 +14,10 @@ Web Technologies & Dependencies Used:
 ->Express Cookie Parser
 ->Express Joi
 ->Express Session
-->npm
+->Npm
 ->Ejs
-->nodemon
-->ejs_mate
+->Nodemon
+->Ejs_mate
 ->Method Override
-->connect-Flash
+->Connect-Flash
+->BCRYPT
