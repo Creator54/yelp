@@ -6,14 +6,14 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
-//authentication requires
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const User = require('./models/user');
+const passport = require('passport'); //authentication 
+const LocalStrategy = require('passport-local'); //authentication 
+const User = require('./models/user'); //authentication 
 
-const campgrounds = require('./routes/campground');
-const reviews = require('./routes/reviews');
 
+const campgroundsRoutes = require('./routes/campground');
+const reviewsRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
 
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
@@ -66,8 +66,9 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/campgrounds',campgrounds);
-app.use('/campgrounds/:id/reviews',reviews)
+app.use('/campgrounds',campgroundsRoutes);
+app.use('/campgrounds/:id/reviews',reviewsRoutes)
+app.use('/',userRoutes);
 
 
 
