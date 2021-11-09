@@ -32,7 +32,11 @@ router.post('/login', passport.authenticate('local',{failureFlash:true,failureRe
     res.redirect('/campgrounds'); // Demmo account {username : abc , password : password }
 })
 
- a
+router.get('/logout',(req,res)=>{
+    req.logout();
+    req.flash('success','You are Successfully Loged Out!');
+    res.redirect('/campgrounds');
+})
 
 
 
