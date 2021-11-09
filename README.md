@@ -20,5 +20,7 @@ Web Technologies & Dependencies Used:
 ->Ejs_mate
 ->Method Override
 ->Connect-Flash
-->BCRYPT
-->Passport Tool (For Authentication).
+->BCRYPT (For Authentication)
+->Passport 
+->Passport-local
+->Passport-local-mogoose
