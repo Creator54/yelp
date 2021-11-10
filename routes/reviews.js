@@ -1,20 +1,11 @@
 const express = require('express');
 const router = express.Router({mergeParams:true}); // for using same params has in params of index page.
 const catchAsync = require('../utils/catchAsync');
-const { reviewSchema } = require('../schemas');
 const Review = require('../models/review');
 const campground = require('../models/campgrounds');
-const ExpressError = require('../utils/ExpressError');
+const {validateReview} = require('../middleware');
 
-const validateReview = (req,res,next)=>{
-    const {error} = reviewSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map( el => el.message).join(',');
-        throw new ExpressError(msg,400);
-    }else{
-        next();
-    }
-}
+
 
 
 router.post('/', validateReview , catchAsync(async(req,res)=>{
