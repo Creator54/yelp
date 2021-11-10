@@ -31,6 +31,7 @@ router.post('/',isLoggedIn,validateCampground,catchAsync(async(req,res,next)=>{ 
         // console.log(req.body.campground);
         // if(!req.body.campground) throw new ExpressError('Invalid Campground',404); // throw to CatchAsync 
         const camp = new campground(req.body.campground);
+        camp.author = req.user._id;
         await camp.save();
         req.flash('success', 'Successfully made a new campground!');
         res.redirect(`/campgrounds/${camp._id}`);
@@ -38,7 +39,8 @@ router.post('/',isLoggedIn,validateCampground,catchAsync(async(req,res,next)=>{ 
 
 
 router.get('/:id' , catchAsync(async(req,res)=>{
-    const camp = await campground.findById(req.params.id).populate('reviews');
+    const camp = await campground.findById(req.params.id).populate('reviews').populate('author');
+    console.log(camp);
     if(!camp){
         req.flash('error','Cannot Find That Campground');
         res.redirect('/campgrounds');
@@ -49,7 +51,7 @@ router.get('/:id' , catchAsync(async(req,res)=>{
 
 router.get('/:id/edit',isLoggedIn, catchAsync(async (req,res)=>{
     const camp = await campground.findById(req.params.id);
-    if(!cmap){
+    if(!camp){
         req.flash('error','Cannot Find That Campground');
         res.redirect('/campgrounds');
     }
