@@ -3,14 +3,12 @@ const router = express.Router({mergeParams:true}); // for using same params has 
 const catchAsync = require('../utils/catchAsync');
 const Review = require('../models/review');
 const campground = require('../models/campgrounds');
-const {validateReview} = require('../middleware');
+const {validateReview , isLoggedIn} = require('../middleware');
 
-
-
-
-router.post('/', validateReview , catchAsync(async(req,res)=>{
+router.post('/',isLoggedIn, validateReview , catchAsync(async(req,res)=>{
     const camp = await campground.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     camp.reviews.push(review);
     await review.save();
     await camp.save();
