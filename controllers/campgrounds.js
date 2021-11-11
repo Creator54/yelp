@@ -13,8 +13,10 @@ module.exports.createCampground = async(req,res,next)=>{  // Basic Custom erroe
     // console.log(req.body.campground);
     // if(!req.body.campground) throw new ExpressError('Invalid Campground',404); // throw to CatchAsync 
     const camp = new campground(req.body.campground);
+    camp.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     camp.author = req.user._id;
     await camp.save();
+    console.log(camp);
     req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${camp._id}`);
 }
