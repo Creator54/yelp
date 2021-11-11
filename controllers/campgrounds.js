@@ -54,11 +54,21 @@ module.exports.renderEditForm = async (req,res)=>{
     res.render('campgrounds/edit',{ camp });
 }
 
-module.exports.updateCampgrounds = async(req,res)=>{
-    const camp = await campground.findByIdAndUpdate(id , req.body.campground);
-    req.flash('success', 'Successfully Updated');
-    //here ... just open the outer bracket and ramaining inside is take and updated in.
-    res.redirect(`/campgrounds/${camp._id}`);
+module.exports.updateCampground = async(req,res)=>{
+    const { id } = req.params;
+    const camp = await campground.findByIdAndUpdate(id, { ...req.body.campground });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    camp.images.push(...imgs);
+    await camp.save();
+    console.log(req.body.deleteImages);
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await camp.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
+    req.flash('success', 'Successfully updated campground!');
+    res.redirect(`/campgrounds/${camp._id}`)
 }
 
 module.exports.deleteCampground = async(req,res)=>{
