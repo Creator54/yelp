@@ -6,6 +6,7 @@ Web Technologies & Dependencies Used:
 ->CSS
 -JavaScript
 ->BootStrap
+->SchementicUI
 ->NodeJS
 ->MongoDB
 ->Mongoose
