@@ -1,7 +1,7 @@
 # CampGround_Base_YelpCamp
 
 A Project Website.
-Web Technologies & Dependencies Used:
+Web Technologies & Dependencies , Middlewares Used:
 ->HTML
 ->CSS
 -JavaScript
@@ -26,3 +26,7 @@ Web Technologies & Dependencies Used:
 ->Passport 
 ->Passport-local
 ->Passport-local-mogoose
+->Cloudnary (Image Upload)
+->Multer
+->multer-storage-cloudinary
+->dotenv
