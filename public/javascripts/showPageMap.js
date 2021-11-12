@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoidmlzaGVzIiwiYSI6ImNrdnZkMHM3dTNkc2cycGtsYTdlOHp3bHkifQ.wVxucqzYhylpTLLQQMw95Q';
+mapboxgl.accessToken = mapToken;
 // const amv = process.env.MAPBOX_TOKEN;
 // console.log(amv);
 const map = new mapboxgl.Map({
