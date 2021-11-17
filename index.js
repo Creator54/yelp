@@ -128,6 +128,8 @@ app.use((err,req,res,next)=>{
     // res.send('Basic Error Handler Working');
 })
 
-app.listen(3000,()=>{
-    console.log('App Started');
+const port  = process.env.PORT || 3000;
+
+app.listen(port,()=>{
+    console.log(`App Started on ${port}`);
 })
