@@ -1,8 +1,6 @@
 if(process.env.NODE_ENV !== "production"){
     require('dotenv').config();
 }
-// console.log(process.env.SECRET);
-
 const express =  require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -14,16 +12,23 @@ const flash = require('connect-flash');
 const passport = require('passport'); //authentication 
 const LocalStrategy = require('passport-local'); //authentication 
 const User = require('./models/user'); //authentication 
-
+// const session = require('express-session');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const campgroundsRoutes = require('./routes/campground');
 const reviewsRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
+const MongoDBStore = require("connect-mongo")(session);
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp',{
-    useNewUrlParser : true,
-    useUnifiedTopology:true
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+
+mongoose.connect(dbUrl,{
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    useUnifiedTopology: true,
+    // useFindAndModify: false
+    
 });
 
 const db = mongoose.connection;
@@ -41,14 +46,34 @@ app.engine('ejs',ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')));
+// app.use(mongoSanitize({
+//     replaceWith: '_'
+// }))
+
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 
 
 const sessionConfig = {
-    secret : "This is the False Secret",
-    resave : false,
-    saveUninitialized : true,
+    store,
+    name: 'session',
+    secret,
+    resave: false,
+    saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -56,6 +81,7 @@ const sessionConfig = {
 
 app.use(session(sessionConfig))
 app.use(flash());
+// app.use(helmet());
 
 
 //authentication
@@ -82,18 +108,6 @@ app.get('/',(req,res)=>{
     res.render('home');
 })
 
-// const varifypassword = (req,res,next) =>{
-//     const { password } = req.query;
-//     if (password === 'pass') {
-//         next();
-//     }
-//     res.send("YOU NEED A PASSWORD!")
-// }
-
-
-// app.get('/secret',varifypassword,(req,res)=>{
-//     res.send("You Have been Pranked , Smile at the Camera.")
-// })
 
 app.get('/fakeUser' , async(req,res)=>{
     const user = new User({email : 'abcdefff@gmail.com',username :'Bishuuuu'})

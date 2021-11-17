@@ -3,7 +3,7 @@ A Project Website.
 Web Technologies, Dependencies & Middlewares Used:
 ->HTML
 ->CSS
--JavaScript
+->JavaScript
 ->BootStrap
 ->Starability.css
 ->SchementicUI
@@ -31,3 +31,5 @@ Web Technologies, Dependencies & Middlewares Used:
 ->dotenv
 ->MapBox
 ->@mapbox/mapbox-sdk
+->MongoDB Atlas
+->connect-mongo@3.2.0
