@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/Vishes77/CampGround_Base_YelpCamp/issues"
   },
-  "homepage": "https://github.com/Vishes77/CampGround_Base_YelpCamp#readme",
+  "homepage": "https://creator54.github.io/yelp",
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.13.2",
     "cloudinary": "^1.27.1",
